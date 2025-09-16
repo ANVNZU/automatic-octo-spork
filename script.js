@@ -108,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function addAnniversaries(baseDate, type, title, color, details) {
-        const now = new Date();
         const baseTimestamp = baseDate.getTime();
         
         // Add the base event itself
@@ -128,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Yearly anniversaries
             const yearDate = new Date(baseDate.getFullYear() + anniversaryYears, baseDate.getMonth(), baseDate.getDate());
-            if (!isNaN(yearDate.getTime()) && yearDate <= now) {
+            if (!isNaN(yearDate.getTime())) {
                 events.push({
                     id: `${type}-year-${anniversaryYears}-${baseDate.toISOString()}`,
                     date: yearDate,
@@ -142,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 100-day anniversaries
             const dayDate = new Date(baseTimestamp + anniversaryDays * 24 * 60 * 60 * 1000);
-            if (!isNaN(dayDate.getTime()) && dayDate <= now) {
+            if (!isNaN(dayDate.getTime())) {
                 events.push({
                     id: `${type}-day-${anniversaryDays}-${baseDate.toISOString()}`,
                     date: dayDate,
