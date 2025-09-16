@@ -30,87 +30,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- CSV Parsing and Data Generation ---
     async function loadEvents() {
-        const response = await fetch('data.csv');
-        const text = await response.text();
-        const rows = text.split('\n').slice(1).filter(row => row.trim() !== '');
-        events = [];
-
-        rows.forEach(row => {
-            const columns = row.split(',').map(col => col.trim());
-
-            // A: メンバー誕生日の日付, B: メンバー名, C: メンバーカラー
-            if (columns[0]) {
-                const date = new Date(columns[0]);
-                const name = columns[1];
-                const color = columns[2] || memberColors[name];
-                
-                // Add check for valid date
-                if (!isNaN(date.getTime())) {
-                    addAnniversaries(date, 'birthday', name, color, null);
-                }
+        try {
+            const response = await fetch('data.csv');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            const text = await response.text();
+            const rows = text.split('\n').slice(1).filter(row => row.trim() !== '');
+            events = [];
 
-            // D: 楽曲リリース記念日の日付, E: 楽曲名
-            if (columns[3]) {
-                const date = new Date(columns[3]);
-                const title = columns[4];
-                
-                // Add check for valid date
-                if (!isNaN(date.getTime())) {
-                    addAnniversaries(date, 'release', title, null, null);
+            rows.forEach(row => {
+                const columns = row.split(',').map(col => col.trim());
+
+                // A: メンバー誕生日の日付, B: メンバー名, C: メンバーカラー
+                if (columns[0]) {
+                    const date = new Date(columns[0]);
+                    const name = columns[1];
+                    const color = columns[2] || memberColors[name];
+                    
+                    if (!isNaN(date.getTime())) {
+                        addAnniversaries(date, 'birthday', name, color, null);
+                    }
                 }
-            }
 
-            // F: メンバーの日の日付, G: メンバー名, H: 絵文字
-            if (columns[5]) {
-                const date = new Date(columns[5]);
-                const name = columns[6];
-                const emoji = columns[7];
-                
-                // Add check for valid date
-                if (!isNaN(date.getTime())) {
-                    events.push({
-                        id: `member-day-${date.toISOString()}-${name}`,
-                        date,
-                        type: 'member-day',
-                        title: `${name}の日`,
-                        emoji: emoji,
-                        category: 'member-day',
-                    });
+                // D: 楽曲リリース記念日の日付, E: 楽曲名
+                if (columns[3]) {
+                    const date = new Date(columns[3]);
+                    const title = columns[4];
+                    
+                    if (!isNaN(date.getTime())) {
+                        addAnniversaries(date, 'release', title, null, null);
+                    }
                 }
-            }
 
-            // I: ライブ実施日の日付, J: 会場名
-            if (columns[8]) {
-                const date = new Date(columns[8]);
-                const venue = columns[9];
-                
-                // Add check for valid date
-                if (!isNaN(date.getTime())) {
-                    events.push({
-                        id: `live-${date.toISOString()}-${venue}`,
-                        date,
-                        type: 'live',
-                        title: `ライブ (${venue})`,
-                        category: 'live',
-                    });
+                // F: メンバーの日の日付, G: メンバー名, H: 絵文字
+                if (columns[5]) {
+                    const date = new Date(columns[5]);
+                    const name = columns[6];
+                    const emoji = columns[7];
+                    
+                    if (!isNaN(date.getTime())) {
+                        events.push({
+                            id: `member-day-${date.toISOString()}-${name}`,
+                            date,
+                            type: 'member-day',
+                            title: `${name}の日`,
+                            emoji: emoji,
+                            category: 'member-day',
+                        });
+                    }
                 }
-            }
-        });
 
-        // Add dummy holidays for 'その他・祝日'
-        addDummyHolidays();
-        
-        events.sort((a, b) => a.date - b.date);
-        
-        renderCalendar();
-        renderList();
+                // I: ライブ実施日の日付, J: 会場名
+                if (columns[8]) {
+                    const date = new Date(columns[8]);
+                    const venue = columns[9];
+                    
+                    if (!isNaN(date.getTime())) {
+                        events.push({
+                            id: `live-${date.toISOString()}-${venue}`,
+                            date,
+                            type: 'live',
+                            title: `ライブ (${venue})`,
+                            category: 'live',
+                        });
+                    }
+                }
+            });
+
+            addDummyHolidays();
+            events.sort((a, b) => a.date - b.date);
+            renderCalendar();
+            renderList();
+        } catch (error) {
+            console.error('Failed to load or parse data.csv:', error);
+        }
     }
     
     function addAnniversaries(baseDate, type, title, color, details) {
         const baseTimestamp = baseDate.getTime();
         
-        // Add the base event itself
         events.push({
             id: `${type}-base-${baseDate.toISOString()}`,
             date: baseDate,
@@ -121,11 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
             category: type
         });
         
-        for (let i = 0; i < 50; i++) { // Generate anniversaries up to 50 years/10000 days
+        for (let i = 0; i < 50; i++) {
             const anniversaryYears = i + 1;
             const anniversaryDays = (i + 1) * 100;
 
-            // Yearly anniversaries
             const yearDate = new Date(baseDate.getFullYear() + anniversaryYears, baseDate.getMonth(), baseDate.getDate());
             if (!isNaN(yearDate.getTime())) {
                 events.push({
@@ -139,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // 100-day anniversaries
             const dayDate = new Date(baseTimestamp + anniversaryDays * 24 * 60 * 60 * 1000);
             if (!isNaN(dayDate.getTime())) {
                 events.push({
@@ -199,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentMonthYear.textContent = `${currentYear} ${new Date(currentYear, currentMonth).toLocaleString('en-US', { month: 'long' })}`;
 
-        // Render previous month's days
         for (let i = startDayOfWeek - 1; i >= 0; i--) {
             const dayCell = document.createElement('div');
             dayCell.classList.add('day-cell', 'inactive');
@@ -207,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
             calendarGrid.appendChild(dayCell);
         }
 
-        // Render current month's days
         for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
             const dayCell = document.createElement('div');
             dayCell.classList.add('day-cell');
@@ -230,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (event.type === 'member-day') {
                         eventItem.innerHTML = event.emoji;
-                        eventItem.style.color = '#e74c3c'; // Ensure heart is red
+                        eventItem.style.color = '#e74c3c';
                     } else if (event.type === 'birthday' && event.color) {
                         eventItem.style.backgroundColor = event.color;
                         eventItem.textContent = event.title;
@@ -259,9 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
             calendarGrid.appendChild(dayCell);
         }
 
-        // Render next month's days
         const totalCells = calendarGrid.children.length;
-        const remainingCells = 42 - totalCells; // 6 rows * 7 days
+        const remainingCells = 42 - totalCells;
         for (let i = 1; i <= remainingCells; i++) {
             const dayCell = document.createElement('div');
             dayCell.classList.add('day-cell', 'inactive');
@@ -350,7 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedEventId = eventId;
         }
         
-        // Update both views
         renderCalendar();
         renderList();
     }
