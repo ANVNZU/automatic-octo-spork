@@ -44,17 +44,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const name = columns[1];
                 const color = columns[2] || memberColors[name];
                 
-                // Add 100-day and 1-year anniversaries
-                addAnniversaries(date, 'birthday', name, color, null);
+                // Add check for valid date
+                if (!isNaN(date.getTime())) {
+                    addAnniversaries(date, 'birthday', name, color, null);
+                }
             }
 
             // D: 楽曲リリース記念日の日付, E: 楽曲名
             if (columns[3]) {
                 const date = new Date(columns[3]);
                 const title = columns[4];
-
-                // Add 100-day and 1-year anniversaries
-                addAnniversaries(date, 'release', title, null, null);
+                
+                // Add check for valid date
+                if (!isNaN(date.getTime())) {
+                    addAnniversaries(date, 'release', title, null, null);
+                }
             }
 
             // F: メンバーの日の日付, G: メンバー名, H: 絵文字
@@ -62,29 +66,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 const date = new Date(columns[5]);
                 const name = columns[6];
                 const emoji = columns[7];
-
-                events.push({
-                    id: `member-day-${date.toISOString()}-${name}`,
-                    date,
-                    type: 'member-day',
-                    title: `${name}の日`,
-                    emoji: emoji,
-                    category: 'member-day',
-                });
+                
+                // Add check for valid date
+                if (!isNaN(date.getTime())) {
+                    events.push({
+                        id: `member-day-${date.toISOString()}-${name}`,
+                        date,
+                        type: 'member-day',
+                        title: `${name}の日`,
+                        emoji: emoji,
+                        category: 'member-day',
+                    });
+                }
             }
 
             // I: ライブ実施日の日付, J: 会場名
             if (columns[8]) {
                 const date = new Date(columns[8]);
                 const venue = columns[9];
-
-                events.push({
-                    id: `live-${date.toISOString()}-${venue}`,
-                    date,
-                    type: 'live',
-                    title: `ライブ (${venue})`,
-                    category: 'live',
-                });
+                
+                // Add check for valid date
+                if (!isNaN(date.getTime())) {
+                    events.push({
+                        id: `live-${date.toISOString()}-${venue}`,
+                        date,
+                        type: 'live',
+                        title: `ライブ (${venue})`,
+                        category: 'live',
+                    });
+                }
             }
         });
 
@@ -101,13 +111,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         const baseTimestamp = baseDate.getTime();
         
+        // Add the base event itself
+        events.push({
+            id: `${type}-base-${baseDate.toISOString()}`,
+            date: baseDate,
+            type: type,
+            title: title,
+            color: color,
+            details: details,
+            category: type
+        });
+        
         for (let i = 0; i < 50; i++) { // Generate anniversaries up to 50 years/10000 days
             const anniversaryYears = i + 1;
             const anniversaryDays = (i + 1) * 100;
 
             // Yearly anniversaries
             const yearDate = new Date(baseDate.getFullYear() + anniversaryYears, baseDate.getMonth(), baseDate.getDate());
-            if (yearDate <= now) {
+            if (!isNaN(yearDate.getTime()) && yearDate <= now) {
                 events.push({
                     id: `${type}-year-${anniversaryYears}-${baseDate.toISOString()}`,
                     date: yearDate,
@@ -121,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 100-day anniversaries
             const dayDate = new Date(baseTimestamp + anniversaryDays * 24 * 60 * 60 * 1000);
-            if (dayDate <= now) {
+            if (!isNaN(dayDate.getTime()) && dayDate <= now) {
                 events.push({
                     id: `${type}-day-${anniversaryDays}-${baseDate.toISOString()}`,
                     date: dayDate,
@@ -133,17 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         }
-
-        // Add the base event itself
-        events.push({
-            id: `${type}-base-${baseDate.toISOString()}`,
-            date: baseDate,
-            type: type,
-            title: title,
-            color: color,
-            details: details,
-            category: type
-        });
     }
 
     function addDummyHolidays() {
@@ -167,13 +177,16 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         holidays.forEach(holiday => {
-            events.push({
-                id: `holiday-${holiday.date}`,
-                date: new Date(holiday.date),
-                type: 'other',
-                title: holiday.title,
-                category: 'other'
-            });
+            const date = new Date(holiday.date);
+            if (!isNaN(date.getTime())) {
+                events.push({
+                    id: `holiday-${holiday.date}`,
+                    date: date,
+                    type: 'other',
+                    title: holiday.title,
+                    category: 'other'
+                });
+            }
         });
     }
 
