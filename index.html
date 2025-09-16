@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NiziU Anniversary Calendar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calendar-app">
+        <div class="header-image-container">
+            <img src="5 カレンダー_アートボード 1 コピー.jpg" alt="NiziU Calendar Image" class="header-image">
+        </div>
+
+        <div class="controls-container">
+            <div class="view-tabs">
+                <button class="tab-button active" id="calendar-view-tab">カレンダービュー</button>
+                <button class="tab-button" id="list-view-tab">リストビュー</button>
+            </div>
+            <div class="filter-container">
+                <label><input type="checkbox" id="release-filter" checked> 楽曲リリース</label>
+                <label><input type="checkbox" id="birthday-filter" checked> メンバー誕生日</label>
+                <label><input type="checkbox" id="member-day-filter" checked> メンバーの日</label>
+                <label><input type="checkbox" id="live-filter" checked> ライブ公演日</label>
+                <label><input type="checkbox" id="other-filter" checked> その他・祝日</label>
+            </div>
+        </div>
+
+        <div class="content-container">
+            <div id="calendar-view" class="view active">
+                <div class="calendar-header">
+                    <button id="prev-month">&lt;</button>
+                    <h2 id="current-month-year"></h2>
+                    <button id="next-month">&gt;</button>
+                </div>
+                <div class="calendar-grid-container">
+                    <div class="weekdays">
+                        <div class="weekday">SUN</div>
+                        <div class="weekday">MON</div>
+                        <div class="weekday">TUE</div>
+                        <div class="weekday">WED</div>
+                        <div class="weekday">THU</div>
+                        <div class="weekday">FRI</div>
+                        <div class="weekday">SAT</div>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid"></div>
+                </div>
+            </div>
+
+            <div id="list-view" class="view">
+                <div id="event-list" class="event-list"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
