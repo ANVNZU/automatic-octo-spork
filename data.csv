@@ -1,11 +1,14 @@
-メンバー誕生日の日付,メンバー誕生日のメンバー名,メンバー誕生日のカラー,楽曲リリース記念日の日付,楽曲リリース記念日の楽曲名,メンバーの日の日付,メンバーの日のメンバー名,メンバーの日の絵文字,ライブ実施日の日付,ライブ実施日の会場名
-2001-01-20,MAKO,#FFC0CB,2020-06-30,Make you happy,2024-05-20,MAYA,❤️,2024-11-15,福岡 PayPayドーム
-2001-08-28,RIO,#FFA500,2020-12-02,Step and a step,2024-12-05,MAKO,❤️,2024-11-16,福岡 PayPayドーム
-2002-04-08,MAYA,#87CEEB,2021-04-07,Take a picture / Poppin' Shakin',2024-08-28,RIO,❤️,2024-11-23,京セラドーム大阪
-2002-10-26,MIIHI,#FF1493,2021-11-24,Chopstick,,,,2024-11-24,京セラドーム大阪
-2002-11-20,RIKU,#FFFF00,2022-04-12,Asobo,,,,2024-12-04,バンテリンドーム ナゴヤ
-2002-12-08,AYAKA,#AFEEEE,2022-07-20,CLAP CLAP,,,,2024-12-05,バンテリンドーム ナゴヤ
-2003-03-24,MAYUKA,#90EE90,2023-03-08,Paradise,,,,2024-12-15,東京ドーム
-2004-03-26,RIMA,#FFB6C1,2023-07-19,COCONUT,,,,2024-12-16,東京ドーム
-2005-02-04,NINA,#0000FF,2023-10-30,Press Play,,,,,,
-,,,,2024-07-24,RISE UP,,,,,,
+type,date,name,member,note
+release,2020-06-30,Make you happy,,Pre-Debut Digital Mini Album
+release,2020-12-02,Step and a step,,1st Single
+birthday,2001-08-20,Mako,Mako,リーダー
+birthday,2003-03-04,Rio,Rio,
+birthday,2002-11-04,Maya,Maya,
+birthday,2004-01-26,Riku,Riku,
+birthday,2004-10-26,Ayaka,Ayaka,
+birthday,2004-05-20,Mayuka,Mayuka,
+birthday,2004-06-20,Rima,Rima,
+birthday,2005-02-04,Miihi,Miihi,
+birthday,2005-09-08,Nina,Nina,
+debut,2020-12-02,NiziU Official Debut,,,
+other,2025-01-01,元旦,,
