@@ -3,55 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiziU Anniversary Calendar</title>
+    <title>NiziU 記念日カレンダー</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="calendar-app">
-        <div class="header-image-container">
-            <img src="5 カレンダー_アートボード 1 コピー.jpg" alt="NiziU Calendar Image" class="header-image">
+    <header>
+        <h1>NiziU 記念日カレンダー</h1>
+        <div class="view-switcher">
+            <button id="calendar-view-btn" class="active">カレンダービュー</button>
+            <button id="list-view-btn">リストビュー</button>
         </div>
+    </header>
 
-        <div class="controls-container">
-            <div class="view-tabs">
-                <button class="tab-button active" id="calendar-view-tab">カレンダービュー</button>
-                <button class="tab-button" id="list-view-tab">リストビュー</button>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>フィルター</h2>
+            <div class="filter-group">
+                <label><input type="checkbox" id="filter-release" checked> 楽曲リリース日</label>
+                <label><input type="checkbox" id="filter-birthday" checked> 誕生日</label>
+                <label><input type="checkbox" id="filter-debut" checked> デビュー記念日</label>
+                <label><input type="checkbox" id="filter-live" checked> ライブ公演日</label>
+                <label><input type="checkbox" id="filter-other" checked> その他祝日</label>
             </div>
-            <div class="filter-container">
-                <label><input type="checkbox" id="release-filter" checked> 楽曲リリース</label>
-                <label><input type="checkbox" id="birthday-filter" checked> メンバー誕生日</label>
-                <label><input type="checkbox" id="member-day-filter" checked> メンバーの日</label>
-                <label><input type="checkbox" id="live-filter" checked> ライブ公演日</label>
-                <label><input type="checkbox" id="other-filter" checked> その他・祝日</label>
+            <div class="selected-events">
+                <h3>選択された記念日</h3>
+                <ul id="selected-events-list">
+                    <!-- 選択されたイベントがここに追加されます -->
+                </ul>
             </div>
-        </div>
+        </aside>
 
-        <div class="content-container">
+        <main class="content">
             <div id="calendar-view" class="view active">
                 <div class="calendar-header">
                     <button id="prev-month">&lt;</button>
                     <h2 id="current-month-year"></h2>
                     <button id="next-month">&gt;</button>
                 </div>
-                <div class="calendar-grid-container">
-                    <div class="weekdays">
-                        <div class="weekday">SUN</div>
-                        <div class="weekday">MON</div>
-                        <div class="weekday">TUE</div>
-                        <div class="weekday">WED</div>
-                        <div class="weekday">THU</div>
-                        <div class="weekday">FRI</div>
-                        <div class="weekday">SAT</div>
-                    </div>
-                    <div class="calendar-grid" id="calendar-grid"></div>
+                <div class="calendar-grid">
+                    <div class="day-name">SUN</div>
+                    <div class="day-name">MON</div>
+                    <div class="day-name">TUE</div>
+                    <div class="day-name">WED</div>
+                    <div class="day-name">THU</div>
+                    <div class="day-name">FRI</div>
+                    <div class="day-name">SAT</div>
+                    <!-- カレンダーの日付セルがJavaScriptで生成されます -->
                 </div>
             </div>
 
             <div id="list-view" class="view">
-                <div id="event-list" class="event-list"></div>
+                <ul id="event-list">
+                    <!-- イベントリストがJavaScriptで生成されます -->
+                </ul>
             </div>
-        </div>
+        </main>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
