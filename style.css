@@ -1,287 +1,252 @@
-:root {
-    --niziu-mako-color: #FFC0CB; /* Example color */
-    --niziu-rio-color: #FFA500;
-    --niziu-maya-color: #87CEEB;
-    --niziu-riku-color: #FFFF00;
-    --niziu-ayaka-color: #AFEEEE;
-    --niziu-mayuka-color: #90EE90;
-    --niziu-rina-color: #FFB6C1;
-    --niziu-mima-color: #FF1493;
-    --niziu-nina-color: #0000FF;
-}
-
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
     margin: 0;
-    padding: 20px;
-    background-color: #f0f2f5;
+    background-color: #f4f4f4;
     color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
 }
 
-.calendar-app {
-    width: 100%;
-    max-width: 800px;
+header {
     background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.header-image-container {
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-}
-
-.header-image {
-    width: 100%;
-    display: block;
-}
-
-/* Controls */
-.controls-container {
     padding: 15px 20px;
-    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.view-tabs {
-    display: flex;
-    justify-content: center;
-    border-bottom: 2px solid #ddd;
+h1 {
+    margin: 0;
+    color: #884488; /* NiziUのイメージカラー */
 }
 
-.tab-button {
-    background: none;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
+.view-switcher button {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
     cursor: pointer;
-    color: #888;
-    position: relative;
-    transition: color 0.3s;
-}
-
-.tab-button.active {
-    color: #333;
-    font-weight: bold;
-}
-
-.tab-button.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #1a73e8; /* Google-like blue */
-}
-
-.filter-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 20px;
-    justify-content: center;
     font-size: 14px;
+    margin-left: 5px;
+    border-radius: 4px;
 }
 
-.filter-container label {
+.view-switcher button.active {
+    background-color: #884488;
+    color: #fff;
+    border-color: #884488;
+}
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 250px;
+    padding: 20px;
+    border-right: 1px solid #eee;
+    background-color: #f9f9f9;
+}
+
+.sidebar h2, .sidebar h3 {
+    color: #884488;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 15px;
     cursor: pointer;
 }
 
-/* Calendar View */
+.filter-group input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.1);
+}
+
+.selected-events {
+    margin-top: 30px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+#selected-events-list {
+    list-style: none;
+    padding: 0;
+}
+
+#selected-events-list li {
+    background-color: #e6e6fa; /* 薄いラベンダー */
+    border-left: 4px solid #884488;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
 .view {
     display: none;
-    padding: 20px;
 }
 
 .view.active {
     display: block;
 }
 
+/* カレンダービュー */
 .calendar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
 }
 
-#prev-month, #next-month {
-    background: none;
-    border: none;
+.calendar-header h2 {
+    margin: 0;
+    color: #884488;
     font-size: 24px;
+}
+
+.calendar-header button {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
     cursor: pointer;
-    color: #555;
+    font-size: 16px;
+    border-radius: 4px;
 }
-
-.weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
-    color: #888;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-}
-
-.weekday:first-child { color: #e74c3c; } /* Sunday Red */
-.weekday:last-child { color: #3498db; } /* Saturday Blue */
 
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-}
-
-.day-cell {
-    position: relative;
-    height: 90px;
-    border-radius: 4px;
-    background-color: #fafafa;
+    gap: 1px;
+    background-color: #eee; /* グリッド線の色 */
     border: 1px solid #eee;
-    overflow: hidden;
-    cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.day-cell:hover {
-    background-color: #f5f5f5;
-}
-
-.day-cell.inactive {
-    color: #ccc;
-    background-color: #fdfdfd;
-}
-
-.day-cell .day-number {
-    position: absolute;
-    top: 5px;
-    left: 5px;
+.day-name {
+    background-color: #f0f0f0;
+    text-align: center;
+    padding: 10px 0;
     font-weight: bold;
+    color: #555;
     font-size: 14px;
 }
 
-.day-cell .event-indicator {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--event-color);
-}
-
-.day-cell .events {
-    margin-top: 25px;
-    padding: 0 5px;
-    font-size: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.day-cell .event-item {
-    padding: 2px 4px;
-    border-radius: 3px;
-    color: #fff;
-    font-weight: 500;
-}
-
-.day-cell .event-item.release { background-color: #7f8c8d; }
-.day-cell .event-item.birthday { background-color: var(--niziu-member-color); }
-.day-cell .event-item.member-day { background-color: transparent; color: #e74c3c; font-size: 14px; }
-.day-cell .event-item.live { background-color: #3498db; }
-.day-cell .event-item.other { background-color: #9b59b6; }
-
-.day-cell.selected {
-    background-color: #e8f0fe !important;
-    border-color: #a3c9f7 !important;
-}
-
-/* List View */
-.event-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.event-list .event-group {
-    border-left: 3px solid #ccc;
-    padding-left: 15px;
+.calendar-day {
+    background-color: #fff;
+    min-height: 100px;
+    padding: 8px;
+    text-align: left;
     position: relative;
+    font-size: 14px;
 }
 
-.event-list .event-group::before {
-    content: '';
-    position: absolute;
-    left: -4px;
-    top: 0;
-    width: 8px;
-    height: 8px;
-    background-color: #ccc;
-    border-radius: 50%;
+.calendar-day.inactive {
+    background-color: #f9f9f9;
+    color: #ccc;
 }
 
-.event-list .event-date {
-    font-size: 18px;
+.calendar-day.today {
+    border: 2px solid #884488;
+    box-shadow: 0 0 5px rgba(136, 68, 136, 0.3);
+}
+
+.day-number {
     font-weight: bold;
+    font-size: 16px;
     margin-bottom: 5px;
     color: #555;
 }
 
-.event-list .event-item {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    transition: background-color 0.2s;
+.calendar-day.inactive .day-number {
+    color: #ccc;
 }
 
-.event-list .event-item:hover {
-    background-color: #f1f3f4;
-}
-
-.event-list .event-item.selected {
-    background-color: #e8f0fe !important;
-}
-
-.event-list .event-title {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.event-list .event-details {
-    font-size: 14px;
-    color: #777;
-    margin-top: 5px;
-}
-
-.event-list .event-type {
+.event {
     font-size: 12px;
-    display: inline-block;
-    padding: 2px 6px;
-    border-radius: 4px;
-    color: #fff;
-    margin-left: 5px;
+    background-color: #e6e6fa; /* 薄いラベンダー */
+    color: #884488;
+    border-radius: 3px;
+    padding: 3px 5px;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    border-left: 3px solid #884488;
 }
 
-.event-list .event-type.release { background-color: #7f8c8d; }
-.event-list .event-type.birthday { background-color: var(--niziu-member-color); }
-.event-list .event-type.member-day { background-color: transparent; color: #e74c3c; }
-.event-list .event-type.live { background-color: #3498db; }
-.event-list .event-type.other { background-color: #9b59b6; }
+.event.selected {
+    background-color: #d8bfd8; /* 少し濃いラベンダー */
+    border-left-color: #a052a0;
+}
+
+.calendar-day.sunday .day-number {
+    color: #e74c3c; /* 日曜日の色 */
+}
+
+.calendar-day.saturday .day-number {
+    color: #3498db; /* 土曜日の色 */
+}
+
+/* リストビュー */
+#event-list {
+    list-style: none;
+    padding: 0;
+}
+
+#event-list li {
+    background-color: #fff;
+    border: 1px solid #eee;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#event-list li.selected {
+    background-color: #f0e6f0; /* 薄い紫色 */
+}
+
+#event-list li .event-date {
+    font-weight: bold;
+    font-size: 16px;
+    color: #884488;
+    width: 100px;
+    flex-shrink: 0;
+}
+
+#event-list li .event-details {
+    flex-grow: 1;
+}
+
+#event-list li .event-details .event-title {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+#event-list li .event-details .event-type {
+    font-size: 12px;
+    color: #666;
+    background-color: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+}
